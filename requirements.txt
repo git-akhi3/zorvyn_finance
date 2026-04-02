@@ -1,0 +1,10 @@
+django
+djangorestframework
+djangorestframework-simplejwt
+django-filter
+drf-spectacular
+psycopg2-binary
+python-decouple
+pytest-django
+factory-boy
+django-cors-headers
