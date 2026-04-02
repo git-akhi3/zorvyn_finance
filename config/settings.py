@@ -21,7 +21,12 @@ INSTALLED_APPS = [
     "corsheaders",
     "apps.accounts",
     "apps.records",
+    "apps.core",
 ]
+
+REST_FRAMEWORK = {
+    "EXCEPTION_HANDLER": "apps.core.exceptions.custom_exception_handler",
+}
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
