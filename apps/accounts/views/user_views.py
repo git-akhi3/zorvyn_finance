@@ -2,14 +2,13 @@ import logging
 
 from drf_spectacular.utils import extend_schema
 from apps.core.utils.swagger_helpers import users_schema
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
 from apps.accounts.constants import AuthErrorCodes, CommonMessages, UserMessages
 from apps.accounts.permissions import IsActiveUser, IsAdmin
 from apps.accounts.serializers import UserSerializer, UserUpdateSerializer
 from apps.accounts.services import UserService
-from apps.accounts.throttling import MeReadThrottle, UsersReadThrottle, UsersWriteThrottle
+from apps.accounts.throttling import UsersReadThrottle, UsersWriteThrottle
 from apps.core.utils.api_response import APIResponse
 from apps.core.utils.pagination import paginate_queryset
 from apps.core.utils.exceptions import InvalidInputException, ResourceNotFoundException
@@ -95,13 +94,3 @@ class UserDetailView(APIView):
             )
 
         return APIResponse.success(message=UserMessages.USER_UPDATED, data=UserSerializer(user).data)
-
-
-@users_schema
-class MeView(APIView):
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [MeReadThrottle]
-
-    @extend_schema(responses={200: UserDetailResponseSerializer})
-    def get(self, request):
-        return APIResponse.success(message=UserMessages.USER_FETCHED, data=UserSerializer(request.user).data)

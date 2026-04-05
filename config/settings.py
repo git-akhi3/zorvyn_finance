@@ -48,7 +48,6 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "auth_register": config("THROTTLE_AUTH_REGISTER", default="10/min"),
         "auth_login": config("THROTTLE_AUTH_LOGIN", default="20/min"),
-        "me_read": config("THROTTLE_ME_READ", default="120/min"),
         "users_read": config("THROTTLE_USERS_READ", default="120/min"),
         "users_write": config("THROTTLE_USERS_WRITE", default="60/min"),
         "records_read": config("THROTTLE_RECORDS_READ", default="240/min"),

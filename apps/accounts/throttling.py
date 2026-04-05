@@ -9,10 +9,6 @@ class LoginThrottle(ScopedApiThrottle):
     scope = 'auth_login'
 
 
-class MeReadThrottle(ScopedApiThrottle):
-    scope = 'me_read'
-
-
 class UsersReadThrottle(ScopedApiThrottle):
     scope = 'users_read'
 

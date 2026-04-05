@@ -5,7 +5,6 @@ from apps.accounts.models import Role, User
 
 REGISTER_URL = "/api/accounts/register/"
 LOGIN_URL = "/api/accounts/login/"
-ME_URL = "/api/accounts/me/"
 USERS_URL = "/api/accounts/users/"
 
 
@@ -108,22 +107,6 @@ class TestLogin:
 
 		assert response.status_code == 401
 		assert response.data["status"] is False
-
-
-@pytest.mark.django_db
-class TestMeEndpoint:
-	def test_me_authenticated_returns_own_profile_when_token_valid(self, viewer_client, viewer_user):
-		response = viewer_client.get(ME_URL)
-
-		assert response.status_code == 200
-		assert response.data["status"] is True
-		assert response.data["data"]["email"] == viewer_user.email
-
-	def test_me_unauthenticated_returns_401_when_missing_token(self, api_client):
-		response = api_client.get(ME_URL)
-
-		assert response.status_code == 401
-		assert response.data["status"] == "error"
 
 
 @pytest.mark.django_db
