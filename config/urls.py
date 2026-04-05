@@ -4,12 +4,12 @@ from django.urls import include, path
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 
 
-def health_check(_request):
+def healthcheck(_request):
 	return JsonResponse({"status": "ok"})
 
 urlpatterns = [
-	path('', health_check, name='root-health'),
-	path('health/', health_check, name='health-check'),
+	path('', healthcheck, name='health-root'),
+	path('healthz/', healthcheck, name='healthz'),
 	path('admin/', admin.site.urls),
 	path('api/accounts/', include('apps.accounts.urls')),
 	path('api/records/', include('apps.records.urls')),
