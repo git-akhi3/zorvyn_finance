@@ -121,6 +121,14 @@ DATABASES = {
         "PASSWORD": config("DB_PASSWORD"),
         "HOST": config("DB_HOST", default="localhost"),
         "PORT": config("DB_PORT", default="5432"),
+        "OPTIONS": {
+            "connect_timeout": config("DB_CONNECT_TIMEOUT", default=10, cast=int),
+            **(
+                {"sslmode": config("DB_SSLMODE")}
+                if config("DB_SSLMODE", default="")
+                else {}
+            ),
+        },
     }
 }
 
