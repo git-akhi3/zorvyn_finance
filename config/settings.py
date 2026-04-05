@@ -25,7 +25,7 @@ INSTALLED_APPS = [
 ]
 
 REST_FRAMEWORK = {
-    "EXCEPTION_HANDLER": "apps.core.exceptions.custom_exception_handler",
+    "EXCEPTION_HANDLER": "apps.core.utils.exception_handler.custom_exception_handler",
 }
 
 MIDDLEWARE = [
@@ -92,3 +92,5 @@ USE_TZ = True
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+AUTH_USER_MODEL = "accounts.User"
