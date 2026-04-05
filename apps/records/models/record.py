@@ -2,7 +2,7 @@ import logging
 
 from django.db import models
 
-from apps.core.models import BaseModel
+from apps.core.models.base import BaseModel
 from apps.records.constants import RecordStatus, RecordType
 
 
