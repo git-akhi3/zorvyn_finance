@@ -1,12 +1,27 @@
+import os
 from pathlib import Path
-from decouple import config
+from decouple import AutoConfig, Config, Csv, RepositoryEnv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+APP_ENV = os.getenv("APP_ENV", "local").lower()
+ENV_FILE_BY_ENV = {
+    "local": ".env",
+    "dev": ".env.dev",
+    "prod": ".env.prod",
+}
+selected_env_file = ENV_FILE_BY_ENV.get(APP_ENV, ".env")
+selected_env_path = BASE_DIR / selected_env_file
+
+if selected_env_path.exists():
+    config = Config(RepositoryEnv(str(selected_env_path)))
+else:
+    config = AutoConfig(search_path=BASE_DIR)
 
 SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False, cast=bool)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="", cast=Csv())
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -26,6 +41,47 @@ INSTALLED_APPS = [
 
 REST_FRAMEWORK = {
     "EXCEPTION_HANDLER": "apps.core.utils.exception_handler.custom_exception_handler",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_THROTTLE_RATES": {
+        "auth_register": config("THROTTLE_AUTH_REGISTER", default="10/min"),
+        "auth_login": config("THROTTLE_AUTH_LOGIN", default="20/min"),
+        "me_read": config("THROTTLE_ME_READ", default="120/min"),
+        "users_read": config("THROTTLE_USERS_READ", default="120/min"),
+        "users_write": config("THROTTLE_USERS_WRITE", default="60/min"),
+        "records_read": config("THROTTLE_RECORDS_READ", default="240/min"),
+        "records_write": config("THROTTLE_RECORDS_WRITE", default="120/min"),
+        "dashboard_read": config("THROTTLE_DASHBOARD_READ", default="120/min"),
+    },
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": config("API_TITLE", default="Zorvyn Finance API"),
+    "DESCRIPTION": config(
+        "API_DESCRIPTION",
+        default=(
+            "Finance dashboard backend API. Authenticate via /api/accounts/login/ "
+            "to get a JWT token, then click Authorize and paste the access token."
+        ),
+    ),
+    "VERSION": config("API_VERSION", default="1.0.0"),
+    "SERVE_INCLUDE_SCHEMA": config("SPECTACULAR_SERVE_INCLUDE_SCHEMA", default=False, cast=bool),
+    "COMPONENT_SPLIT_REQUEST": config("SPECTACULAR_COMPONENT_SPLIT_REQUEST", default=True, cast=bool),
+    "TAGS": [
+        {"name": "auth", "description": "Registration and login"},
+        {"name": "users", "description": "User management (admin only)"},
+        {"name": "roles", "description": "Role listing (admin only)"},
+        {"name": "records", "description": "Financial record management"},
+        {"name": "dashboard", "description": "Aggregated dashboard data"},
+    ],
+    "SECURITY": [{"BearerAuth": []}],
+    "SWAGGER_UI_SETTINGS": {
+        "persistAuthorization": config("SWAGGER_PERSIST_AUTH", default=True, cast=bool),
+        "displayRequestDuration": config("SWAGGER_DISPLAY_REQUEST_DURATION", default=True, cast=bool),
+        "filter": config("SWAGGER_FILTER", default=True, cast=bool),
+    },
 }
 
 MIDDLEWARE = [
@@ -60,7 +116,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
+        "ENGINE": config("DB_ENGINE", default="django.db.backends.postgresql"),
         "NAME": config("DB_NAME", default="assessment"),
         "USER": config("DB_USER"),
         "PASSWORD": config("DB_PASSWORD"),
@@ -84,12 +140,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
-USE_I18N = True
-USE_TZ = True
+LANGUAGE_CODE = config("LANGUAGE_CODE", default="en-us")
+TIME_ZONE = config("TIME_ZONE", default="UTC")
+USE_I18N = config("USE_I18N", default=True, cast=bool)
+USE_TZ = config("USE_TZ", default=True, cast=bool)
 
-STATIC_URL = "static/"
+STATIC_URL = config("STATIC_URL", default="static/")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
