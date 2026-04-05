@@ -4,6 +4,8 @@ from apps.records.views import RecordDetailView, RecordListCreateView
 from apps.records.views.dashboard_views import DashboardSummaryView, DashboardTrendsView, DashboardCategoriesView, DashboardActivityView
 
 urlpatterns = [
+    path('', RecordListCreateView.as_view(), name='record-list-create-legacy'),
+    path('<uuid:pk>/', RecordDetailView.as_view(), name='record-detail-legacy'),
     path('v1/transaction/create', RecordListCreateView.as_view(), name='record-list-create'),
     path('v1/record/<uuid:pk>/', RecordDetailView.as_view(), name='record-detail'),
     path('v1/dashboard/summary/', DashboardSummaryView.as_view(), name='dashboard-summary'),
