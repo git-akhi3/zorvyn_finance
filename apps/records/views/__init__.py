@@ -1,3 +1,16 @@
-from django.shortcuts import render
+from apps.records.views.record_views import RecordDetailView, RecordListCreateView
+from apps.records.views.dashboard_views import (
+    DashboardActivityView,
+    DashboardCategoriesView,
+    DashboardSummaryView,
+    DashboardTrendsView,
+)
 
-# Create your views here.
+__all__ = [
+    'RecordListCreateView',
+    'RecordDetailView',
+    'DashboardSummaryView',
+    'DashboardTrendsView',
+    'DashboardCategoriesView',
+    'DashboardActivityView',
+]

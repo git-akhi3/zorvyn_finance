@@ -61,5 +61,5 @@ class TimeoutException(APIException):
     default_detail = 'Gateway timeout. Please try again later.'
 
 class InvalidAmountException(APIException):
-    status_code = 504
+    status_code = 400
     default_detail = 'Amount is not valid. Please try again later.'

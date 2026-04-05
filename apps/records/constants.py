@@ -1,17 +1,20 @@
+class RecordStatus:
+	PENDING = 'pending'
+	COMPLETED = 'completed'
+	CANCELLED = 'cancelled'
 
-class RecordMessages:
-    CREATED = "Financial record created successfully."
-    FETCHED = "Record retrieved successfully."
-    LIST_FETCHED = "Records retrieved successfully."
-    UPDATED = "Record updated successfully."
-    DELETED = "Record deleted successfully."
-    NOT_FOUND = "Financial record not found."
-
-
-class DashboardMessages:
-    FETCHED = "Dashboard summary retrieved successfully."
+	CHOICES = [
+		(PENDING, 'Pending'),
+		(COMPLETED, 'Completed'),
+		(CANCELLED, 'Cancelled'),
+	]
 
 
-class RecordErrorCodes:
-    NOT_FOUND = "not_found"
-    ALREADY_EXISTS = "already_exists"
+class RecordType:
+	INCOME = 'income'
+	EXPENSE = 'expense'
+
+	CHOICES = [
+		(INCOME, 'Income'),
+		(EXPENSE, 'Expense'),
+	]

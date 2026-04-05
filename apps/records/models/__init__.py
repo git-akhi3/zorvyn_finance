@@ -1,3 +1,3 @@
-from django.db import models
+from apps.records.models.record import FinancialRecord
 
-# Create your models here.
+__all__ = ['FinancialRecord']
