@@ -2,7 +2,7 @@ from django.db import models
 
 from apps.accounts.models.role import Role
 from apps.accounts.models.user import User
-from apps.core.models import BaseModel
+from apps.core.models.base import BaseModel
 
 
 class UserRole(BaseModel):

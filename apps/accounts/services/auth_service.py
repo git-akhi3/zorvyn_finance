@@ -1,6 +1,5 @@
 import logging
 
-from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.accounts.constants import AuthMessages
@@ -40,9 +39,9 @@ class AuthService:
 
     @staticmethod
     def login(email: str, password: str) -> dict:
-        user = authenticate(username=email, password=password)
+        user = User.all_objects.filter(email=email).first()
 
-        if user is None:
+        if user is None or not user.check_password(password):
             logger.warning("Login failed due to invalid credentials", extra={"email": email})
             raise NotAuthenticatedException(AuthMessages.INVALID_CREDENTIALS)
 

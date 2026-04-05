@@ -1,7 +1,7 @@
 from django.db import models
 
 from apps.accounts.constants import RoleConfig
-from apps.core.models import BaseModel
+from apps.core.models.base import BaseModel
 
 
 class Role(BaseModel):

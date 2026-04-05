@@ -4,7 +4,7 @@ from django.db import models
 
 from apps.accounts.constants import AuthMessages
 from apps.accounts.models.role import Role
-from apps.core.models import BaseModel
+from apps.core.models.base import BaseModel
 from apps.core.utils.exceptions import InvalidInputException
 
 
