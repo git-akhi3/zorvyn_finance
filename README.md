@@ -10,8 +10,8 @@
 [![Deployed on Railway](https://img.shields.io/badge/Deployed-Railway-0B0D0E?style=flat&logo=railway&logoColor=white)](https://railway.app)
 [![Tests](https://img.shields.io/badge/Tests-pytest-green?style=flat&logo=pytest&logoColor=white)](https://pytest.org)
 
-**🔗 Live API:** `https://your-railway-url.railway.app/api/`  
-**📖 Swagger Docs:** `https://your-railway-url.railway.app/api/docs/`
+**🔗 Live API:** `https://zorvynfinance-production.up.railway.app/api/`  
+**📖 Swagger Docs:** `https://zorvynfinance-production.up.railway.app/api/v1/docs`
 
 ---
 
