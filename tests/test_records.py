@@ -7,11 +7,11 @@ from apps.records.models import FinancialRecord
 from tests.factories import FinancialRecordFactory
 
 
-RECORDS_URL = "/api/records/"
+RECORDS_URL = "/api/v1/records/transactions"
 
 
 def record_detail_url(pk):
-	return f"/api/records/{pk}/"
+	return f"/api/v1/records/transactions/{pk}"
 
 
 @pytest.mark.django_db

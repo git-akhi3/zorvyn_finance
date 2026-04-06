@@ -3,9 +3,9 @@ import pytest
 from apps.accounts.models import Role, User
 
 
-REGISTER_URL = "/api/accounts/register/"
-LOGIN_URL = "/api/accounts/login/"
-USERS_URL = "/api/accounts/users/"
+REGISTER_URL = "/api/v1/accounts/auth/register"
+LOGIN_URL = "/api/v1/accounts/auth/login"
+USERS_URL = "/api/v1/accounts/users"
 
 
 @pytest.mark.django_db
@@ -130,7 +130,7 @@ class TestUserManagement:
 		assert response.data["status"] == "error"
 
 	def test_update_user_role_admin_succeeds_when_role_payload_valid(self, admin_client, viewer_user):
-		url = f"/api/accounts/users/{viewer_user.id}/"
+		url = f"/api/v1/accounts/users/{viewer_user.id}"
 		response = admin_client.patch(url, {"role": Role.ANALYST}, format="json")
 
 		assert response.status_code == 200
@@ -138,14 +138,14 @@ class TestUserManagement:
 		assert response.data["data"]["role"] == Role.ANALYST
 
 	def test_admin_cannot_deactivate_themselves_when_setting_inactive_false(self, admin_client, admin_user):
-		url = f"/api/accounts/users/{admin_user.id}/"
+		url = f"/api/v1/accounts/users/{admin_user.id}"
 		response = admin_client.patch(url, {"is_active": False}, format="json")
 
 		assert response.status_code == 400
 		assert response.data["status"] is False
 
 	def test_update_user_viewer_returns_403_when_non_admin_attempts_patch(self, viewer_client, viewer_user):
-		url = f"/api/accounts/users/{viewer_user.id}/"
+		url = f"/api/v1/accounts/users/{viewer_user.id}"
 		response = viewer_client.patch(url, {"role": Role.ADMIN}, format="json")
 
 		assert response.status_code == 403
